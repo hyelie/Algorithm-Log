@@ -1,4 +1,4 @@
-### algorithm
+# algorithm
 
 병 생활 중 전역 이후 알고리즘 공부
 
