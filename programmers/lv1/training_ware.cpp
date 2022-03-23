@@ -3,7 +3,7 @@
 #include <vector>
 
 using namespace std;
-
+/*
 int solution(int n, vector<int> lost, vector<int> reserve) {
     // 체육복 개수를 배열로 저장
     vector<int> suit_num(n, 1);
@@ -46,6 +46,48 @@ int solution(int n, vector<int> lost, vector<int> reserve) {
     }
     if(suit_num[n-1] == 0 && suit_num[n-2] == 2){
         suit_num[n-1]++; suit_num[n-2]--;
+    }
+    
+    for(int i = 0; i<n; i++){
+        answer += suit_num[i] >= 1 ? 1 : 0;
+    }
+    
+    return answer;
+}*/
+
+
+int solution(int n, vector<int> lost, vector<int> reserve) {
+    // 체육복 개수를 배열로 저장
+    vector<int> suit_num(n, 1);
+
+    for(int lost_num : lost)
+        suit_num[lost_num-1]--;
+    for(int reserve_num : reserve)
+        suit_num[reserve_num-1]++;
+
+     
+    // 근데 거꾸로 생각하면 앞에 있는 사람부터 scan하기 때문에 체육복이 2개인 사람을 검색해도 되는 것 아닌가? 해보자.
+    
+    int answer = 0;
+    
+    if(suit_num[0] == 2 && suit_num[1] == 0){
+        suit_num[0] = suit_num[1] = 1;
+    }
+    for(int i = 1; i<n-1; i++){
+        if(suit_num[i] == 2){
+            if(suit_num[i-1] == 0){
+                suit_num[i-1] = suit_num[i] = 1;
+            }
+            else if(suit_num[i+1] == 0){
+                suit_num[i+1] = suit_num[i] = 1;
+            }
+            else{
+                continue;
+            }
+        }
+    }
+    if(suit_num[n-1] == 2 && suit_num[n-2] == 0){
+        suit_num[n-1] = suit_num[n-2] = 1;
     }
     
     for(int i = 0; i<n; i++){
