@@ -1,3 +1,5 @@
+// 최대공약수와 최소공배수
+
 #include <string>
 #include <vector>
 

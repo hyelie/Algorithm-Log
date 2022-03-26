@@ -1,3 +1,5 @@
+// 제일 작은 수 제거하기
+
 #include <string>
 #include <vector>
 #include <algorithm>

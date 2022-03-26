@@ -1,3 +1,5 @@
+// 최소직사각형
+
 #include <string>
 #include <vector>
 #include <algorithm>

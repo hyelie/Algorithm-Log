@@ -1,3 +1,5 @@
+// 같은 숫자는 싫어
+
 #include <vector>
 #include <iostream>
 #include <map>

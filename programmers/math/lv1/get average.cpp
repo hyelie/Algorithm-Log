@@ -1,3 +1,5 @@
+// 평균 구하기
+
 #include <string>
 #include <vector>
 

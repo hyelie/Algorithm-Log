@@ -1,3 +1,5 @@
+// 가운데 글자 가져오기
+
 #include <string>
 #include <vector>
 
