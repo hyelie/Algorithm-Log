@@ -23,6 +23,7 @@ int main(void) {
 
 void solve() {
 	cout << "hello, world!" << endl;
+	cout<<endl;
 
 	return;
 }
