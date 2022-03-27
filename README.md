@@ -12,8 +12,9 @@
 
 ## 정보 블로그들
 
-subinium.github.io/PS-Study-Types-and-Complements/?msclkid=d60b6cd9a9be11ecb723c667121b88da
-blog.naver.com/kks227
+ - subinium.github.io/PS-Study-Types-and-Complements/?msclkid=d60b6cd9a9be11ecb723c667121b88da
+ - blog.naver.com/kks227
+ - https://firesoil-it.tistory.com/26?category=983388
 
 ## 전역 전까지 목표
 최소 어디든 상위 10%까지는 찍어보기
