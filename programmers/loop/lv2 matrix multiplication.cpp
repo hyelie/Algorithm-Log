@@ -5,7 +5,25 @@
 
 using namespace std;
 
+// KIJ 순서로, cache-friendly code.
 vector<vector<int>> solution(vector<vector<int>> arr1, vector<vector<int>> arr2) {
+    int row1 = arr1.size(), col1 = arr1[0].size(); // = row2
+    int row2 = arr2.size(), col2 = arr2[0].size();
+    vector<vector<int>> answer(row1, vector<int>(col2, 0));
+    
+    for(int k = 0; k<col1; k++){
+        for(int i = 0; i<row1; i++){
+            int temp = arr1[i][k];
+            for(int j = 0; j<col2; j++){
+                answer[i][j] += temp * arr2[k][j];
+            }
+        }
+    }
+    
+    return answer;
+}
+
+/*vector<vector<int>> solution(vector<vector<int>> arr1, vector<vector<int>> arr2) {
     int row1 = arr1.size(), col1 = arr1[0].size(); // = row2
     int col2 = arr2[0].size();
     vector<vector<int>> answer(row1, vector<int>(col2, 0));
@@ -21,8 +39,8 @@ vector<vector<int>> solution(vector<vector<int>> arr1, vector<vector<int>> arr2)
     }
     return answer;
 }
+*/
 
-// 
 
 
 
