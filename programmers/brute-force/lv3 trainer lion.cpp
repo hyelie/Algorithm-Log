@@ -2,35 +2,75 @@
 
 #include <vector>
 #include <algorithm>
+#include <set>
 #include <iostream>
 
 using namespace std;
 typedef pair<int, int> pii;
 
-void backtrack(int cur_depth, int max_depth, int prev_idx, int& max_dist, vector<pii>& results, vector<pii>& able_points){
-    if(cur_depth == max_depth){
-        int cur_min_dist = 999999;
-        for(int i = 0; i<max_depth; i++){
-            for(int j = i+1; j<max_depth; j++){
-                cur_min_dist = min(cur_min_dist, abs(results[i].first - results[j].first) + abs(results[i].second - results[j].second));
+int getDist(pii&a, pii&b){
+    return abs(a.first - b.first) + abs(a.second - b.second);
+}
+
+// return {r, c} in range
+bool inRange(int r, int c, int n){
+    if(0 <= r && r < n && 0 <= c && c < n) return true;
+    else return false;
+}
+
+// cur_point로부터 거리가 D인 모든 점
+vector<pii> getDistDPoints(int D, pii cur_point, int n){
+    set<pii> result;
+    pii top = {cur_point.first - D, cur_point.second};
+    pii bottom = {cur_point.first + D, cur_point.second};
+    
+    int dr[2] = {1, 1};
+    int dc[2] = {1, -1};
+    
+    for(int i = 0; i<=D; i++){
+        for(int lr = 0; lr < 2; lr++){
+            pii p = {top.first + i * dr[lr], top.second + i * dc[lr]};    
+            if(inRange(p.first, p.second, n)) result.insert(p);
+            
+            p = {bottom.first - i * dr[lr], bottom.second - i * dc[lr]};
+            if(inRange(p.first, p.second, n)) result.insert(p);
+        }
+    }
+    
+    vector<pii> to_v(result.begin(), result.end());
+    return to_v;
+}
+
+bool backtrack(int cur_depth, int max_depth, int target_dist, vector<pii>& results, vector<pii> cur_able_points, int n){
+    if(cur_depth == max_depth-1){
+        return true;
+    }
+    
+    for(int i = 0; i<cur_able_points.size(); i++){
+        pii next_point = cur_able_points[i];
+        results[cur_depth] = next_point;
+        
+        vector<pii> dist_d_points = getDistDPoints(target_dist, next_point, n);
+        vector<pii> next_able_points;
+        
+        for(int dpi = 0; dpi < dist_d_points.size(); dpi++){
+            bool isAllDistOverD = true;
+            for(int cdi = 0; cdi <= cur_depth; cdi++){
+                if(getDist(results[cdi], dist_d_points[dpi]) < target_dist){
+                    isAllDistOverD = false;
+                    break;
+                }
             }
+            if(isAllDistOverD) next_able_points.push_back(dist_d_points[dpi]);
         }
-        if(max_dist < cur_min_dist){
-            /*cout<<"갱신, 값 : "<<cur_min_dist<<endl;
-            for(int i = 0; i<max_depth; i++){
-                cout<<results[i].first<<" "<<results[i].second<<endl;
-            }*/
+        
+        if(next_able_points.size() == 0) return false;
+        else{
+            bool flag = backtrack(cur_depth+1, max_depth, target_dist, results, next_able_points, n);
+            if(flag) return true;
         }
-        max_dist = max(max_dist, cur_min_dist);
-        return;
     }
-    
-    for(int i = prev_idx + 1; i<able_points.size(); i++){
-        results[cur_depth] = able_points[i];
-        backtrack(cur_depth+1, max_depth, i, max_dist, results, able_points);
-    }
-    
-    return;
+    return false;
 }
 
 // 전역 변수를 정의할 경우 함수 내에 초기화 코드를 꼭 작성해주세요.
@@ -47,9 +87,6 @@ int solution(int n, int m, vector<vector<int>> timetable) {
     }
     
     // max_overlap은 worst n*n의 size임.
-    // n*n C x임
-    // 100 C 50은 1억을 훨씬 넘음
-    // 조금 더 효율적 알고리즘이 필요하지 싶음
     // cutting ? 거리가 d인 곳에만 두는 방식 ?
     // 최대 거리 2n-1
     // 총 50번 탐색
@@ -57,27 +94,26 @@ int solution(int n, int m, vector<vector<int>> timetable) {
     // n^5인 듯?
     int max_overlap = *max_element(times.begin(), times.end());
     
-    int chessboard_num = n*n/2 + n%2; // chessboard처럼 채울 경우
-    cout<<"chess"<<chessboard_num<<endl;
+    int chessboard_num = n * n / 2 + n % 2; // chessboard처럼 채울 경우
+    if(max_overlap == 1) return 0;
+    if(max_overlap == 2) return 2 * n - 2;
     if(max_overlap > chessboard_num) return 1;
     
-    
     vector<pii> results(max_overlap);
-    int max_dist = -1;
-    
-    vector<pii> able_points;
-    for(int i = 0; i<n; i++){
-        for(int j = 0; j<n; j++){
-            able_points.push_back({i, j});
+    int max_dist = -1, target_dist;
+    vector<pii> cur_able_points;
+    for(int r = 0; r<n; r++){
+        for(int c= 0; c<n; c++){
+            cur_able_points.push_back({r, c});
         }
     }
+    for(target_dist = 2*n-3; target_dist >= 3; target_dist--){
+        bool flag = backtrack(0, max_overlap, target_dist, results, cur_able_points, n);
+        if(flag) break;
+    }
     
-    backtrack(0, max_overlap, -1, max_dist, results, able_points);
     
-    cout<<max_dist<<endl;
-    if(max_dist == 999999) max_dist = 0;
-    
-    return max_dist;
+    return target_dist;
 }
 
 /*
