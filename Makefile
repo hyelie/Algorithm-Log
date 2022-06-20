@@ -1,1 +1,0 @@
-mkdir -p ${c.cpp.set.build.path} && ${c.cpp.set.compiler} main.cpp -o ${c.cpp.set.build.path}/${c.cpp.set.main.name} ${c.cpp.set.build.options} -lm
