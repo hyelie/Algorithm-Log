@@ -8,7 +8,7 @@ using namespace std;
 typedef pair<int, int> pii;
 typedef pair<int, string> pis;
 typedef pair<string, int> psi;
-
+ㅎ
 int time_to_min(int h, int m){
 	return (60 * h + m) % 1440;
 }
