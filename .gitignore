@@ -6,3 +6,6 @@
 Debug/
 .vscode/*
 CRunner/*
+CRunner/backup.cpp
+CRunner/main
+CRunner/main.cpp
