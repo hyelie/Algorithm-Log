@@ -15,14 +15,17 @@ int main(void) {
 	cin.tie(0);
 	std::ios_base::sync_with_stdio(0);
 	
-	int N; cin>>N;
-	string s;
-	int sum = 0;
-	cin>>s;
-	for(int i = 0; i<N; i++){
-		sum += s[i] - '0';
+	int P; cin>>P;
+
+	int N; string s;
+	while(P--){
+		cin>>N>>s;
+		for(int i = 0; i<s.size(); i++){
+			for(int r = 0; r<N; r++){
+				cout<<s[i];
+			}
+		}cout<<"\n";
 	}
-	cout<<sum;
 	
 	
 	return 0;
