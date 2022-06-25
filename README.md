@@ -22,3 +22,6 @@
 대회 수상까지 노려보기
 
 CODE SERVER에 c++ 올림
+
+git add *
+git commit -m "Solve : 
