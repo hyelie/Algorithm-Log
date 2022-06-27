@@ -20,12 +20,18 @@ void solve(){
 	double sum = (r1 + r2) * (r1 + r2);
 	double sub = (r1 - r2) * (r1 - r2);
 
-	int num;
+	/*int num;
 	if(dist == 0 && r1 == r2) num = -1;
 	else if(dist > sum) num = 0;
 	else if(dist == sum) num = 1;
 	else if(sub < dist && dist < sum) num = 2;
 	else if(sub == dist) num = 1;
+	else num = 0;*/
+
+	int num;
+	if(dist == 0 && r1 == r2) num = -1;
+	else if(sub < dist && dist < sum) num = 2;
+	else if(dist == sum || dist == sub) num = 1;
 	else num = 0;
 
 	cout<<num<<'\n';
