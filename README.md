@@ -28,6 +28,7 @@
 
 ## 개발환경
 GCP의 VM에 Code Server를 올리고, C++ 개발환경 세팅 후 개인 도메인과 연결해서 사용
+
 [환경 구성 방법](https://blog.hyelie.site/entry/GCP-VS-Code-Server?category=947331)
 
 ## 알고리즘 정리 및 기록
