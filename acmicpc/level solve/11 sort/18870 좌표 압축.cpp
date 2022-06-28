@@ -15,9 +15,34 @@ typedef long long ll;
 typedef pair<int, int> pii;
 typedef pair<int, string> pis;
 
-bool cmp(const pis &a, const pis &b){
+void gridCompress(vector<int> &arr){
+    vector<int> temp(arr.size());
+    for(int i = 0; i<arr.size(); i++){
+        temp[i] = arr[i];
+    }
+    sort(temp.begin(), temp.end());
+    temp.erase(unique(temp.begin(), temp.end()), temp.end());
+    for(int i = 0; i<arr.size(); i++){
+    	arr[i] = lower_bound(temp.begin(), temp.end(), arr[i]) - temp.begin();
+    }
+}
 
-	return a.first < b.first;
+
+void gridCompress2(vector<int> &arr){
+	set<int> temp;
+	for(int i = 0; i<arr.size(); i++){
+		temp.insert(arr[i]);
+	}
+
+	int i = 0;
+   	map<int, int> mapper;
+	for(int elem : temp){
+		mapper[elem] = i++;
+	}
+
+	for(int i = 0; i<arr.size(); i++){
+    	arr[i] = mapper[arr[i]];
+    }
 }
 
 int main(void) {
@@ -26,24 +51,17 @@ int main(void) {
 	std::ios_base::sync_with_stdio(0);
 
 	////////////////////// write your code below
-	
-	int N; cin>>N;
-	map<int, int> mapper;
-	vector<int> v(N);
-	set<int> temp;
+
+	int N; cin>>N;vector<int> v(N);
 	for(int i = 0; i<N; i++){
 		cin>>v[i];
-		temp.insert(v[i]);
 	}
 
-	int i = 0;
-	for(int elem : temp){
-		mapper[elem] = i++;
-	}
+	gridCompress2(v);
 
-	for(int i : v){
-		cout<<mapper[i]<<' ';
-	}
+	for(int i : v) cout<<i<<' ';
+	
+
 
 
 
