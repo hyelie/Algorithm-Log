@@ -19,6 +19,37 @@ void swap(int &a, int &b){
 	b = temp;
 }
 
+void bubbleSort(vector<int> &arr){
+	for(int i = 0; i<N; i++){
+		for(int j = i+1; j<N; j++){
+			if(arr[i] > arr[j]) swap(arr[i], arr[j]);
+		}
+	}
+}
+
+void selectionSort(vector<int> &arr){
+	for(int i = 0; i<N; i++){
+		int minidx = i;
+		for(int j = i+1; j<N; j++){
+			if(arr[j] < arr[minidx]){
+				minidx = j;
+			}
+		}
+		swap(arr[i], arr[minidx]);
+	}
+}
+
+void insertionSort(vector<int> &arr){
+	for(int i = 1; i<N; i++){
+		int maxval = arr[i];
+		int j;
+		for(j = i-1; j>=0 && arr[j] > maxval; j--){
+			arr[j+1] = arr[j];
+		}
+		arr[j+1] = maxval;
+	}
+}
+
 int main(void) {
 	cin.tie(0);
 	cout.tie(0);
@@ -32,14 +63,7 @@ int main(void) {
 		cin>>arr[i];
 	}
 
-	for(int i = 1; i<N; i++){
-		int maxval = arr[i];
-		int j;
-		for(j = i-1; j>=0 && arr[j] > maxval; j--){
-			arr[j+1] = arr[j];
-		}
-		arr[j+1] = maxval;
-	}
+	bubbleSort(arr);
 	
 	for(int i : arr) cout<<i<<'\n';
 
