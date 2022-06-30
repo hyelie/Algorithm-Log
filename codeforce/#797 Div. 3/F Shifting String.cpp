@@ -15,25 +15,25 @@ typedef long long ll;
 typedef pair<int, int> pii;
 typedef pair<int, string> pis;
 
-ll gcd(ll a, ll b){
-	ll r;
+int gcd(int a, int b){
+	int r;
 	if(b > a) return gcd(b, a);
 	while(b != 0){
-		r = (ll)a % b;
+		r = (int)a % b;
 		a = b;
 		b = r;
 	}
 	return a;
 }
 
-ll lcm(ll a, ll b){
-	return a * b / gcd(a, b);
+ll lcm(int a, int b){
+	return (ll)a * b / gcd(a, b);
 }
 
 // abcdefab와 같이 일반적인 경우 -> 길이를 리턴
 // abcabc와 같이 반복되는 경우 -> 그 cycle을 찾아 리턴
-ll minCycle(string s){
-	ll i;
+int minCycle(string s){
+	int i;
 	for(i = 1; i<s.length(); i++){
 		string f = s.substr(i), e = s.substr(0, i);
 		if(f + e == s) break;
@@ -51,7 +51,7 @@ void solve(){
 		arr[i]--;
 	}
 
-	int answer = 1;
+	ll answer = 1;
 	for(int i = 0; i<n; i++){
 		if(visited[i]) continue;
 		string loop = "";
@@ -60,7 +60,7 @@ void solve(){
 			visited[i] = true;
 			i = arr[i];
 		}
-		ll min_cycle = minCycle(loop);
+		int min_cycle = minCycle(loop);
 		answer = lcm(answer, min_cycle);
 	}
 
