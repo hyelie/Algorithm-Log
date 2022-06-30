@@ -15,7 +15,7 @@ typedef long long ll;
 typedef pair<int, int> pii;
 typedef pair<int, string> pis;
 
-ll gcd(int a, int b){
+ll gcd(ll a, ll b){
 	ll r;
 	if(b > a) return gcd(b, a);
 	while(b != 0){
@@ -26,49 +26,45 @@ ll gcd(int a, int b){
 	return a;
 }
 
-ll lcm(int a, int b){
-	return (ll)a / gcd(a, b) * b;
+ll lcm(ll a, ll b){
+	return a * b / gcd(a, b);
 }
 
-bool isClear(vector<int>& num_cycle){
-	for(int i : num_cycle) if(i == -1) return false;
-	return true;
-}
-
-bool isRepeat(string s){
-	int len = s.length();
-	if(len&1) return false;
-	if(s.substr(0, len/2) == s.substr(len/2, len/2)) return true;
-	else return false;
+// abcdefab와 같이 일반적인 경우 -> 길이를 리턴
+// abcabc와 같이 반복되는 경우 -> 그 cycle을 찾아 리턴
+ll minCycle(string s){
+	ll i;
+	for(i = 1; i<s.length(); i++){
+		string f = s.substr(i), e = s.substr(0, i);
+		if(f + e == s) break;
+	}
+	return i;
 }
 
 void solve(){
 	int n; cin>>n;
 	string s; cin>>s;
-	vector<int> arr(n), num_cycle(n, -1);
-	vector<string> strs(n, "");
-	for(int i = 0; i<n; i++) cin>>arr[i];
-
-	string origin_s = s, prev_s = s;
-	while(!isClear(num_cycle)){
-		for(int i = 0; i<n; i++){
-			s[i] = prev_s[arr[i] - 1];
-			if(num_cycle[i] == -1) strs[i] += s[i];
-		}
-		
-		for(int i = 0; i<n; i++){
-			if(num_cycle[i] == -1 && isRepeat(strs[i])){
-				num_cycle[i] = strs[i].length()/2;
-			}
-		}
-		prev_s = s;
+	vector<int> arr(n);
+	vector<bool> visited(n, false);
+	for(int i = 0; i<n; i++){
+		cin>>arr[i];
+		arr[i]--;
 	}
 
-	ll result = num_cycle[0];
-	for(int i = 1; i<n; i++){
-		result = lcm(result, num_cycle[i]);
+	int answer = 1;
+	for(int i = 0; i<n; i++){
+		if(visited[i]) continue;
+		string loop = "";
+		while(!visited[i]){
+			loop += s[i];
+			visited[i] = true;
+			i = arr[i];
+		}
+		ll min_cycle = minCycle(loop);
+		answer = lcm(answer, min_cycle);
 	}
-	cout<<result<<'\n';
+
+	cout<<answer<<'\n';
 }
 
 int main(void) {
