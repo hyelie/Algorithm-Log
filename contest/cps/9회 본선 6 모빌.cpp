@@ -19,6 +19,7 @@ typedef pair<ll, ll> pll;
 vector<int> v;
 int LIMIT = 12;
 
+// 조건이 알파벳 후순열부터 오니까 뒤에서부터 채울 것임.
 int cti(char c){
 	return LIMIT - 1 - c + 'a';
 }
@@ -37,6 +38,8 @@ bool condition(int cur_depth){
 	int j = v[cti('j')];
 	int k = v[cti('k')];
 	int l = v[cti('l')];
+
+	// 현재까지 채운 모빌 개수 + 현재까지 채운 모빌들의 조건을 만족해야 true
 	if(cur_depth >= 1 && 3 * k != l) flag = false;
 	if(cur_depth >= 4 && 3 * j != i + 2 * h) flag = false;
 	if(cur_depth >= 6 && f != k + l + 2*g) flag = false;
@@ -59,8 +62,9 @@ void permutate(int cur_depth, int max_depth, vector<int>& candidate, vector<bool
 		if(!isUsed[i]){
 			isUsed[i] = true;
 			v[cur_depth] = candidate[i];
+			// 조건 만족해야 더 search하게 함.
 			if(condition(cur_depth))
-			permutate(cur_depth + 1, max_depth, candidate, isUsed);
+				permutate(cur_depth + 1, max_depth, candidate, isUsed);
 			isUsed[i] = false;
 		}
 	}
