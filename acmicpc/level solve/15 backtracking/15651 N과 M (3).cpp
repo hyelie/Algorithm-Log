@@ -18,15 +18,15 @@ typedef pair<int, string> pis;
 vector<int> nums;
 int N, M; 
 
-void combination(int cur_depth, int max_depth, int prev_idx, vector<int>& result){
+void dPermutation(int cur_depth, int max_depth, vector<int>& result){
 	if(cur_depth == max_depth){
 		for(int i : result) cout<<i<<' ';
 		cout<<'\n';
 		return;
 	}
-	for(int i = prev_idx + 1; i<N; i++){
+	for(int i = 0; i<N; i++){
 		result[cur_depth] = nums[i];
-		combination(cur_depth + 1, max_depth, i, result);
+		dPermutation(cur_depth + 1, max_depth, result);
 	}
 }
 
@@ -43,7 +43,7 @@ int main(void) {
 	}
 	vector<int> result(M);
 
-	combination(0, M, -1, result);
+	dPermutation(0, M, result);
 
 
 	//////////////////////
