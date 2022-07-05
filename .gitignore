@@ -1,10 +1,5 @@
-*.sln
-*.vcxproj
-*.filters
-*.user
-*.ini
-Debug/
 .vscode/*
+.git/*
 CRunner/*
 CRunner/backup.cpp
 CRunner/main
