@@ -19,39 +19,20 @@ int N, M, s_len;
 vector<string> boards;
 string target_id; 
 
-int C = -1;
+int C = 99999999;
 string max_command = "";
 
 vector<int> id_cnt(28, 0), board_cnt(28, 0);
 
-bool DFS(int cur_depth, pii cur_p, string command){
-	bool flag = true;
-	for(int i = 0; i<28; i++){
-		if(id_cnt[i] != 0 && board_cnt[i] < id_cnt[i]){
-			flag = false;
-			break;
-		}
-	}
-
+bool DFS(int cur_depth, int max_depth, pii cur_p, string command){
 	char target_char = target_id[cur_depth % s_len];
-	if(!flag){ // 더 못찾는 경우
+	if(cur_depth == max_depth){
 		for(int r = cur_p.first; r<N-1; r++) command += "D";
 		for(int c = cur_p.second; c<M-1; c++) command += "R";
 		if(command.length() > 1000000) return false;
-
-		int cal_C = cur_depth/s_len;
-		if(cal_C == C){
-			if(command.length() < max_command.length()){
-				max_command = command;
-			}
-		}
-		if(cal_C > C){
-			C = cal_C;
-			max_command = command;
-		}
+		max_command = command;
 		return true;
 	}
-
 
 	vector<pii> target_v;
 	for(int i = 0; i<N; i++){
@@ -82,7 +63,7 @@ bool DFS(int cur_depth, pii cur_p, string command){
 		boards[tar_p.first][tar_p.second] = ' ';
 		board_cnt[target_char - 'a']--;
 		id_cnt[target_char - 'a']--;
-		bool result = DFS(cur_depth + 1, tar_p, temp_command);
+		bool result = DFS(cur_depth + 1, max_depth, tar_p, temp_command);
 		if(result == true) return true;
 		boards[tar_p.first][tar_p.second] = target_char;
 		board_cnt[target_char - 'a']++;
@@ -106,14 +87,21 @@ int main(void) {
 			board_cnt[board[i][j]-'a']++;
 		}
 	}
+
 	boards = board;
 	cin>>target_id;
-
 	for(char c : target_id){
 		id_cnt[c-'a']++;
 	}
 
-	DFS(0, {0, 0}, "");
+	for(int i = 0; i<28; i++){
+		if(id_cnt[i] == 0){
+			continue;
+		}
+		C = min(C, board_cnt[i]/id_cnt[i]);
+	}
+	
+	DFS(0, (int)target_id.length() * C, {0, 0}, "");
 
 	cout<<C<<' '<<max_command.size()<<'\n';
 	cout<<max_command<<'\n';
