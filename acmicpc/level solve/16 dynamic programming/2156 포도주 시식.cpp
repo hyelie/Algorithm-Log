@@ -23,16 +23,15 @@ int main(void) {
 	////////////////////// write your code below
 	
 	int n; cin>>n;
-	vector<int> drinks(n), dp(n, 0);
-	for(int i = 0; i<n; i++) cin>>drinks[i];
+	vector<int> drinks(n+1), dp(n+1, 0);
+	for(int i = 1; i<=n; i++) cin>>drinks[i];
 
-	dp[0] = drinks[0];
-	if(n >= 2) dp[1] = drinks[0] + drinks[1];
-	if(n >= 3) dp[2] = max(dp[1], max(drinks[0] + drinks[1], drinks[0] + drinks[2]));
+	dp[1] = drinks[1];
+	if(n >= 2) dp[2] = drinks[1] + drinks[2];
 	// dp[i] : i번째 잔을 마셨을 때 최대값
 
-	for(int i = 3; i<n; i++){
-		dp[i] = max(dp[i-2] + drinks[i], dp[i-3] + drinks[i-1] + drinks[i]);
+	for(int i = 3; i<=n; i++){
+		dp[i] = max(dp[i-1], max(dp[i-2] + drinks[i], dp[i-3] + drinks[i-1] + drinks[i]));
 	}
 	
 	cout<<*max_element(dp.begin(), dp.end());
