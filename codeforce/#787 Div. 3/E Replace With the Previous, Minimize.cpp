@@ -29,6 +29,14 @@ gndcafb
 abcedfghijklmnopqrstuvwxyz
 3 10 9
 
+제일 앞에서부터 차례대로 해 가면 되는 것 아닌가 ?
+제일 앞의 문자 c를 c-'a',
+min(26, k)번 줄임. 
+c부터 c-k
+a부터 a+k까지 char를 map에 넣고, value는 
+
+
+
 
 */
 

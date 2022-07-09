@@ -38,7 +38,6 @@ void solve(){
 	cout<<result<<'\n';
 
 	return;
-
 }
 
 /*

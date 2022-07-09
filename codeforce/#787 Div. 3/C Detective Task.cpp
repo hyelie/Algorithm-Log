@@ -33,7 +33,7 @@ void solve(){
 
 	int answer;
 	if(zeroidx == s.length() && oneidx == -1) answer = s.length(); // 둘다 찾지 못하면 전부 ?
-	else if(zeroidx < oneidx) answer = 1;	// 01과 같이 0 다음에 1이 오는 경우 - 무조건 0이 거짓말임.
+	//else if(zeroidx < oneidx) answer = 1;	// 01과 같이 0 다음에 1이 오는 경우 - 무조건 0이 거짓말임.
 	else if(oneidx == -1) answer = zeroidx + 1; // 1을 못 찾은 경우 - 0 뒤에 있는 것들은 모두 참이니 zeroidx까지
 	else if(zeroidx == s.length()) answer = s.length() - oneidx; // 0을 못 찾은 경우 - 1 앞에 있는 것은 모두 참이니 oneidx부터 끝까지
 	else answer = zeroidx - oneidx + 1; // 0, 1 둘 다 있는 경우 - 1과 0 사이(포함)
