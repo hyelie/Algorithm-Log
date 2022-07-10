@@ -18,6 +18,34 @@ typedef pair<int, string> pis;
 void solve(){
 	int n, k; cin>>n>>k;
 	string s; cin>>s;
+	
+	map<char, char> m;
+	for(int i = 0; i<s.length(); i++){
+		if(m.find(s[i]) != m.end()) continue; // already exist
+		
+		vector<char> desc_chars;
+		char final_char = max((int)s[i] - k, (int)'a');
+		for(char c = s[i]; c > 'a'; c--){
+			if(m.find(c) == m.end()){
+				k--;
+				desc_chars.push_back(c);
+				if(k == 0) break;
+			} else{
+				final_char = m[c];
+				break;
+			}
+		}
+		for(char c : desc_chars){
+			m[c] = final_char;
+		}
+
+		if(k == 0) break;
+	}
+
+	for(int i = 0; i<s.length(); i++){
+		if(m.find(s[i]) != m.end()) s[i] = m[s[i]];
+	}
+	cout<<s<<'\n';
 }
 
 // op : string s에 있는 어떤 char c에 대해 c-1을 함
@@ -26,17 +54,25 @@ void solve(){
 /*
 gndcafb
 5.
-abcedfghijklmnopqrstuvwxyz
+abcdedfghijklmnopqrstuvwxyz
 3 10 9
 
 제일 앞에서부터 차례대로 해 가면 되는 것 아닌가 ?
-제일 앞의 문자 c를 c-'a',
-min(26, k)번 줄임. 
-c부터 c-k
-a부터 a+k까지 char를 map에 넣고, value는 
+제일 앞의 문자 c를 min(c-'a', k)번 줄임
+k -= c-'a'
+c부터 c-k까지 char를 map에 넣고, value는 c-k
 
+다음 문자가 map에 있으면 pass, 없으면 같은 logic 진행
 
+ekyv
+akyv
+aayv
 
+map
+bcdefghijk
+
+k
+9
 
 */
 
