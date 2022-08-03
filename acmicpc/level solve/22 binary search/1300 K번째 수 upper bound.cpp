@@ -32,7 +32,8 @@ int main(void) {
 		for(int i = 1; i<=N; i++){
 			cnt += min(mid/i, N);
 		}
-		if(cnt >= K){ // 더 많은 숫자가 있는 경우 수를 줄여야 함
+		if(cnt > K - 1){ // 더 많은 숫자가 있는 경우 수를 줄여야 함. upper bound로 탐색
+						 // mid보다 작은 수가 k-1개
 			end = mid;
 		}
 		else{
@@ -45,3 +46,5 @@ int main(void) {
 
 	return 0;
 }
+
+// 'mid보다 작거나 같은 수가 k개'의 lower bound와 'mid보다 작은 수가 k-1개'의 upper bound는 동치.
