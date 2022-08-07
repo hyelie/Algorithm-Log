@@ -16,40 +16,8 @@ typedef long long ll;
 typedef pair<int, int> pii;
 typedef pair<int, string> pis;
 
-int num_red = 0;
-
-pii getMostDuplicateString(string& t, vector<bool>& isRed, vector<string> &sarr){
-	int dup_num = -1, idx = -1, start_idx = -1;
-	for(int i = 0; i<sarr.size(); i++){
-		int nth_idx = 0;
-		while(1){
-			nth_idx = t.find(sarr[i], nth_idx);
-			if(nth_idx == string::npos) break;
-			int cnt = 0;
-			for(int k = nth_idx; k<nth_idx + sarr[i].size(); k++){
-				if(!isRed[k]) cnt++;
-			}
-			if(dup_num < cnt){
-				dup_num = cnt;
-				idx = i;
-				start_idx = nth_idx;
-			}
-			nth_idx++;
-		}
-	}
-	return {idx, start_idx};
-}
-
-bool checkAllRed(vector<bool>& isRed){
-	for(int i = 0; i<isRed.size(); i++){
-		if(!isRed[i]) return false;
-	}
-	return true;
-}
-
 void solve(){
 	string t; cin>>t; // text
-	vector<bool> isRed(t.size(), false);
 	int n; cin>>n; // number of strings in the set
 	vector<string> sarr(n); // string in the set.
 	
@@ -58,32 +26,42 @@ void solve(){
 	}
 
 	vector<pii> answer;
-	while(checkAllRed(isRed)){
-		pii result = getMostDuplicateString(t, isRed, sarr);
-		int md_idx = result.first; // most duplicate sarr idx
-		int start_idx = result.second;
-
-		if(md_idx == -1){
-			answer.resize(0);
-			break;
-		}
-		for(int k = start_idx; k<start_idx + sarr[md_idx].length(); k++){
-			if(!isRed[k]){
-				isRed[k] = true;
+	int blackidx = 0, prevbidx = -1; 
+	// blackidx : 아직 black인 index 중 제일 왼쪽 것
+	// prevbidx : 이전 blackidx
+	//while(blackidx < t.length()){
+	while(blackidx < t.length()){
+		int blackidx_temp = blackidx;
+		int prevbidx_temp = -1;
+		int sarridx_temp = -1;
+		for(int tidx = prevbidx + 1; tidx <= blackidx; tidx++){
+			for(int i = 0; i<n; i++){
+				if(t.substr(tidx, sarr[i].length()) == sarr[i]){
+					if(blackidx_temp < (int)(tidx + sarr[i].length())){ // 최대한 뒤로 늘림
+						prevbidx_temp = tidx;
+						blackidx_temp = tidx + sarr[i].length();
+						sarridx_temp = i;
+					}
+				}
 			}
 		}
-		answer.push_back({md_idx + 1, start_idx + 1});
+		if(prevbidx_temp == -1){
+			cout<<"-1\n";
+			return;
+		}
+		blackidx = blackidx_temp;
+		prevbidx = prevbidx_temp;
+		answer.push_back({sarridx_temp+1, prevbidx_temp + 1});
+	}
+	cout<<answer.size()<<'\n';
+	for(pii &p : answer){
+		cout<<p.first<<' '<<p.second<<'\n';
 	}
 
-	if(answer.size() != 0){
-		cout<<answer.size()<<'\n';
-		for(pii elem : answer){
-			cout<<elem.first<<' '<<elem.second<<'\n';
-		}
-	}
-	else{
-		cout<<"-1\n";
-	}
+	/*
+	첫 단계는 max length prefix를 찾는 것이다. 그 단어가 없다면 색칠 불가
+	찾았다면  
+	*/
 
 
 
