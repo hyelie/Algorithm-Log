@@ -49,6 +49,9 @@ void solve(){
 		}
 	}
 	cout<<yes;
+
+	// 이게 왜 동작을 안하는지는 잘 모르겠는데,
+	// bipartite 검증이라는 생각이 팍 든다. 모든 subgraph가 bipartite then true, else false 감이다.
 }
 
 //////////////////////
