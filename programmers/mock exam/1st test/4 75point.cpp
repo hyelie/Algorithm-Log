@@ -19,6 +19,8 @@ bool cmp(vector<int> &a, vector<int>& b){
 	return true;
 }
 
+int NINF = -99999;
+
 int solve(vector<vector<int>> diff, vector<int>&standard, vector<int>& rev_standard){
 	int answer = 0;
 	for(int r = 1;r<n; r++){
@@ -27,7 +29,7 @@ int solve(vector<vector<int>> diff, vector<int>&standard, vector<int>& rev_stand
 			diff[r] = rev(diff[r]);
 			answer++;
 		}
-		else return -1;
+		else return NINF;
 	}
     for(int i : standard) if(i == 1) answer++;
 	return answer;
@@ -48,7 +50,13 @@ int solution(vector<vector<int>> beginning, vector<vector<int>> target) {
 	vector<int> rev_standard = rev(standard);
    	int a = solve(diff, standard, rev_standard);
 	int b = solve(diff, rev_standard, standard) + 1;
-    //cout<<a<<' '<<b<<endl;
-   
-    return min(a, b);
+	//cout<<a<<' '<<b<<endl;
+
+	if(a < -1 && b < -1) return -1;
+	else if(a < -1 && b >= 0) return b;
+	else if(a >= 0 && b < -1) return a;
+	else return min(a, b);
+      
+
+    //return min(a, b);
 }
