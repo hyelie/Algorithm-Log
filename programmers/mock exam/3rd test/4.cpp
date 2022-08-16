@@ -24,7 +24,7 @@ pii dfs(int cur){
         }
     }
     return result; // child가 없다면 {1, 0}을 리턴.
-}``
+}
 
 int solution(int n, vector<vector<int>> lighthouse) {
     N = n+1;
