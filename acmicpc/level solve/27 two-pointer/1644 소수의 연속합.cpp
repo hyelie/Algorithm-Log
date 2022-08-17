@@ -21,21 +21,23 @@ typedef pair<int, string> pis;
 int maxn = 4000000;
 vector<int> primes;
 
-void sieve(){
-	vector<bool> isPrime(maxn+1, true);
-	isPrime[0] = isPrime[1] = false;
+void find_prime_improved(){
+    vector<bool> isPrime(maxn+1, true);
+    isPrime[0] = isPrime[1] = false;
+    for(ll i = 2; i<=sqrt(maxn); i++){
+        if(isPrime[i]){
+            for(ll j = i*i; j<=maxn; j+= i){
+                isPrime[j] = false;
+            }
+        }
+    }
 	for(ll i = 2; i<=maxn; i++){
-		if(isPrime[i]){
-			primes.push_back(i);
-			for(ll j = i*i; j<=maxn; j += i){
-				isPrime[j] = false;
-			}
-		}	
+		if(isPrime[i]) primes.push_back(i);
 	}
 }
 
 void solve(){
-	sieve();
+	find_prime_improved();
 	int N; cin>>N;
 	int s = 0, e = 0, cur_sum = 0, answer = 0;
 	while(e <= primes.size()){
