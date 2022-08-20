@@ -1,6 +1,4 @@
 .vscode/*
 .git/*
-CRunner/*
-CRunner/backup.cpp
 CRunner/main
 CRunner/main.cpp
