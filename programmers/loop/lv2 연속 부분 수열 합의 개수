@@ -1,0 +1,23 @@
+#include <string>
+#include <vector>
+#include <set>
+#include <iostream>
+
+using namespace std;
+
+int solution(vector<int> elements) {
+    int size = elements.size();
+    elements.insert(elements.end(), elements.begin(), elements.end());
+    
+    set<int> s;
+    
+    for(int startidx = 0; startidx < size; startidx++){
+        int sum = 0;
+        for(int idx = startidx; idx < size + startidx; idx++){
+            sum += elements[idx];
+            s.insert(sum);
+        }
+    }
+    
+    return s.size();
+}
