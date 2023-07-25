@@ -31,21 +31,28 @@ void solve(vector<int> &times){
         }
         backtrack[i] = backtrack[i] + to_string(i+1);
     }
-    cout<<"total size: "<<times.size()<<endl;
     cout<<"answer: "<<dp[times.size()-1]<<endl;
     cout<<"track result: "<<backtrack[backtrack.size()-1]<<endl;
     return;
 }
 
 int main(){
-    vector<int> times = {13, 8, 11, 7, 9, 17, 12, 14, 19, 15, 16, 15, 15, 13, 14}; // 문제
+    vector<int> forward = {13, 8, 11, 7, 9, 17, 12, 14, 19, 15, 16, 15, 15, 13, 14}; // 문제
     // vector<int> times = {10, 20, 15, 25, 10, 20}; // 예제
 
-    // 1번에서 출발해 1번을 찍고 도착하는 경우
-    for(int i = times.size()-2; i>=0; i--){
-        times.push_back(times[i]);
+    // 15번을 찍는 경우 시간 최소값 계산
+    cout<<"갈 때"<<endl;
+    solve(forward);
+
+    // 15번을 찍은 상태에서 출발점으로 되돌아온다.
+    vector<int> backward = {};
+    for(int i = forward.size()-2; i>=0; i--){
+        backward.push_back(forward[i]);
     }
-    solve(times);
+    backward.push_back(0); // 단, 출발점으로 돌아올 때는 1번 센터를 들르지 않아도 괜찮으므로 점검 시간이 0인 0번 센터를 추가하고, 0번 센터로 돌아오는 최소 시간을 계산한다.
+    
+    cout<<"돌아올 때"<<endl;
+    solve(backward);
     return 0;
 }
 
@@ -62,14 +69,20 @@ else use dp
 dp[i] = times[i] + min(dp[i-1], dp[i-2], dp[i-3]);
 
 
-출력값은
-answer: 122
-track result: 1 4 7 10 13 16 19 22 25 28
-이다. 이 때 track result는 0부터 세기 때문에 모든 값에 1을 더한다. 그러면
-1 4 7 10 13 16 19 22 25 28에서
-2 5 8 11 14 17 20 23 26 29가 된다.
-이 때 15를 넘는 것은 30에서 그 값을 빼야 한다.
-2 5 8 11 14 17 20 23 26 29에서
-2 5 8 11 14 13 10 7 4 1가 된다.
+갈 때
+answer: 71
+track result: 2 4 7 10 12 15
+돌아올 때
+answer: 57
+track result: 2 5 8 11 13 15
+돌아올 때는 센터 번호를 역순으로 넣었기 때문에 15에서 그 값을 빼야 한다.
+track result: 2 5 8 11 13 15
+-> 13 10 7 4 2 0
+
+즉, 전체 경로는
+2 4 7 10 12 15
+13 10 7 4 2 0
+총 계 128이다.
+
 
 */
