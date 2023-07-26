@@ -1,53 +1,37 @@
 # Algorithm
-
 2022년 2월 SW개발병 입대 이후 알고리즘 공부
 
  - https://programmers.co.kr/
-     * Lv 3까지 모든 문제 푼 이후에 백준, 리트코드로 넘어갈 예정. Lv 4는 어느 정도 막혔다 싶을 때 폼 유지를 목적으로 풀 것.
      * [프로그래머스 커리어](https://career.programmers.co.kr/)에 실전 모의고사 같은 것들이 자주 올라온다. 간간히 찾아가서 풀어 볼 것
   - https://leetcode.com/
-     * programmers Lv 3 올솔한다면 폼 유지를 목적으로 문제를 풀 것.
+     * daily challenge를 꾸준하게 풀어보자.
 - https://www.acmicpc.net/
-     * 단계별 51번, DP, Segment Tree, Sweeping 문제는 추가적으로 더 풀어볼 예정
+     * **실/골 랜덤 디펜스**로 실전 감각을 길러 보자.
      * solved.ac에 class별 문제가 있던데, 그것도 풀어 볼 것
  - https://codeforces.com/
      * 심심할 때 virtual로 풀어보기
      * 코포는 코테나 면접준비용으로는 뭔가 맞지 않는 느낌? 물론 하면 좋겠지만 선택과 집중을 하자.
+
+### 목표 및 우선순위
+`기업 코딩테스트를 100%로 통과할 수 있을 만한 실력`을 갖추기 위해 다음 목표들을 설정함.
+1. ~~programmers lv2, lv3 올솔~~ - 완료
+    - 문제가 추가되면 찾아가서 풀어보기
+2. leetcode daily challenge, contest, featured 풀기
+3. 백준 실/골 랜덤디펜스 
+    - `*s..g !@$me` 명령어로 내가 풀지 않은 실버~골드 문제를 풀 수 있다.
+    - 문제 티어, 태그, 푼 사람 등 최대한 숨기고, 코테와 유사하게 30분에 풀 수 있도록 타이머를 사용할 것.
+    - 시간은 2시간~3시간 정도가 적당한 것 같다. (2시간은 풀이, 1시간은 푼 문제 복기 및 정리)
+4. 코테 시즌이 가까워지면 programmers 기출 다시 풀어보기 (특히 구현 문제들)
+
 
 ## 정보 블로그들
  - https://subinium.github.io/PS-Study-Types-and-Complements/?msclkid=d60b6cd9a9be11ecb723c667121b88da
  - https://blog.naver.com/kks227
  - https://firesoil-it.tistory.com/26?category=983388
 
-## 전역 전까지 목표
-최소 어디든 상위 10%까지는 찍어보기,
-
-국내 대기업 코딩테스트 안전빵으로 통과할 수 있을 정도로 역량 쌓기,
-
-대회는 닥치는 대로 나가보기.
-
 ## 개발환경
-GCP의 VM에 Code Server를 올리고, C++ 개발환경 세팅 후 개인 도메인과 연결해서 사용
-
-[환경 구성 방법](https://hyelie.tistory.com/entry/GCP-VS-Code-Server?category=947331)
+GCP의 VM에 Code Server를 올리고, C++ 개발환경 세팅 후 개인 도메인과 연결해서 사용. [환경 구성 방법](https://hyelie.tistory.com/entry/GCP-VS-Code-Server?category=947331)
 
 ## 알고리즘 정리 및 기록
 [블로그](https://hyelie.tistory.com)
 의 PS-Log 탭, Algorithm 탭에 각각 정리
-
-## 대강의 계획
-programmers lv3까진 끝내고, 이후에는 leetcode나 백준과 병행하는 쪽으로 해보자.
-
-### 전역 전까지
-~~당장은 개인 플젝 주제를 생각해 보고, 코드포스와 백준에 조금 비중을 두고 집중해 보자.~~ -> 플젝 어느정도 완성되었으니 PS(programmers, leetcode)와 CS에 집중하자.
-
- - PS는 PS대로,
- - CS는 CS대로 공부 후 시간 날 때마다 기술 포스트 정리(남들이 알아볼 수 있을 만 한 수준으로 풀어서) + 조금 deep하게 정리하기!
-     - 전역 전까지 CS(네트워크, OS, 알고리즘, DB, java, BE) 관련 면접대비용 개념 포스팅
- - ~~github 관리 (지금까지 했던 코드들 정리-정렬, 리팩토링, 주석 정리 등-, readme 꾸미기)~~ - 완료
-
-우선순위는 다음과 같다.
- - 1순위 PS
- - 2순위 CS공부 + 포스팅
- - ~~2순위 포폴 준비(해커톤, 개인 플젝)~~ - 완료
- - ~~3순위 github 코드 정리, 커밋 기록 정리, 리드미 정리~~ - 완료
