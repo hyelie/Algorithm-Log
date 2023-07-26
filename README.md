@@ -35,3 +35,5 @@ GCP의 VM에 Code Server를 올리고, C++ 개발환경 세팅 후 개인 도메
 ## 알고리즘 정리 및 기록
 [블로그](https://hyelie.tistory.com)
 의 PS-Log 탭, Algorithm 탭에 각각 정리
+ - PS-Log 탭에는 풀었던 문제들의 접근 과정, 복기 내용을 작성
+ - Algorithm 탭에는 알고리즘의 증명, 시간복잡도, 코드 등을 작성
