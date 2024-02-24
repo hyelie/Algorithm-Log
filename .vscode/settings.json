@@ -4,6 +4,8 @@
         "vector": "cpp",
         "deque": "cpp",
         "string": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "stack": "cpp",
+        "iostream": "cpp"
     }
 }

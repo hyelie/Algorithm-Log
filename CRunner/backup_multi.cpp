@@ -28,6 +28,10 @@ int main(void) {
 	cin.tie(0);
 	cout.tie(0);
 	std::ios_base::sync_with_stdio(0);
+
+	// comment when submit
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
 	
 	// number of test cases
 	int t; cin>>t;

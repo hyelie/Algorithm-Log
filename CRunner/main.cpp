@@ -19,7 +19,13 @@ typedef pair<int, string> pis;
 ////////////////////// write your code below
 
 void solve(){
-	
+	int N; cin>>N;
+	vector<int> arr(N);
+	for(int i = 0; i<N; i++) cin>>arr[i];
+
+	for(int i = 0; i<N; i++) cout<<arr[i];
+
+	return;
 }
 
 //////////////////////
@@ -29,11 +35,10 @@ int main(void) {
 	cout.tie(0);
 	std::ios_base::sync_with_stdio(0);
 
-	// comment when submit
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 
 	solve();
-
+	
 	return 0;
 }
