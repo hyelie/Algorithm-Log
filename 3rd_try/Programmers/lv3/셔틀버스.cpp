@@ -1,23 +1,3 @@
-#define _USE_MATH_DEFINES 
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
-#include <queue>
-#include <cmath>
-#include <numeric>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <set>
-
-using namespace std;
-typedef long long ll;
-typedef pair<int, int> pii;
-typedef pair<int, string> pis;
-
-////////////////////// write your code below
-
 #include <string>
 #include <vector>
 #include <iostream>
@@ -115,14 +95,14 @@ string solution(int n, int t, int m, vector<string> timetable) {
     // lb
     int start = 0, end = StringToMinute("24:00"), mid;
     int limit = end;
-    // while(start < end){
-    //     mid = (start + end) / 2;
-    //     if(CanNotGo(mid, n, t, m, waits)) end = mid; // 탈 수 없으면 시간을 더 당김
-    //     else start = mid + 1;
-    // } // 결과 : 탈 수 없는 최소값
+    while(start < end){
+        mid = (start + end) / 2;
+        if(CanNotGo(mid, n, t, m, waits)) end = mid; // 탈 수 없으면 시간을 더 당김
+        else start = mid + 1;
+    } // 결과 : 탈 수 없는 최소값
     
-    int temp = StringToMinute("09:00");
-    cout<<CanNotGo(temp, n, t, m, waits)<<endl;
+    // int temp = StringToMinute("09:00");
+    // cout<<CanNotGo(temp, n, t, m, waits)<<endl;
     
     if(end == 0){ // 어떻게 해도 못 탐
         return "00:00";
@@ -133,19 +113,4 @@ string solution(int n, int t, int m, vector<string> timetable) {
     else{ // 보통 경우
         return MinuteToString(end-1);
     }
-}
-
-//////////////////////
-
-int main(void) {
-	cin.tie(0);
-	cout.tie(0);
-	std::ios_base::sync_with_stdio(0);
-
-	int n = 1, t = 1, m = 5;
-	vector<string> timetable = {"08:00", "08:01", "08:02", "08:03"};
-
-	solution(n, t, m, timetable);
-	
-	return 0;
 }
