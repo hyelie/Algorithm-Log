@@ -1,111 +1,101 @@
-#define _USE_MATH_DEFINES 
+#include <string>
+#include <algorithm>
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <string>
-#include <queue>
-#include <cmath>
-#include <numeric>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <set>
-
-using namespace std;
-typedef long long ll;
-typedef pair<int, int> pii;
-typedef pair<int, string> pis;
-
-////////////////////// write your code below
-
-#include <string>
-#include <vector>
-#include <iostream>
-#include <set>
-#include <queue>
-#include <iterator>
 
 using namespace std;
 
-#include <string>
-#include <vector>
-#include <queue>
-#include <algorithm>
+int n;
+int answer = 1e9;
+vector<vector<int>> board;
+vector<vector<bool>> visited;
 
-using namespace std;
+int dr[4] = {0, 0, -1, 1};
+int dc[4] = {-1, 1, 0, 0};
 
+struct Pos{
+    int prev_dir; // 이전의 진행방향, 0이 가로, 1이 세로
+    int r, c; // 좌표
+    int num_s = 0; // 직전 개수
+    int num_c = 0; // 코너 개수
+};
 
-string MinuteToString(int m){
-    int h = m / 60;
-    string hs = to_string(h);
-    if(h < 10) hs = "0" + hs;
-    
-    m = m - 60 * h;
-    string ms = to_string(m);
-    if(m < 10) ms = "0" + ms;
-    return hs + ":" + ms;
+bool IsEnd(Pos cur){
+    return cur.r == n-1 && cur.c == n-1;
 }
 
-int StringToMinute(string s){
-    int h = stoi(s.substr(0, 2));
-    int m = stoi(s.substr(3, 5));
-    return 60 * h + m;
+int CalSum(Pos cur){
+    return cur.num_s * 100 + cur.num_c * 500;
 }
 
-string solution(int n, int t, int m, vector<string> timetable) {
-    vector<int> waits(timetable.size());
-    for(int i = 0; i<timetable.size(); i++){
-        waits[i] = StringToMinute(timetable[i]);
+int GetDirection(int r, int c, int nr, int nc){ // 0이면 가로, 1이면 세로
+    if(r == nr) return 0;
+    else return 1;
+}
+
+// 현재 위치 [r, c], 다음 위치 [nr, nc]에 대해 Pos 리턴
+Pos GetNext(Pos cur, int nr, int nc){
+    Pos next;
+    next.r = nr;
+    next.c = nc;
+    next.num_s = cur.num_s;
+    next.num_c = cur.num_c;
+
+    if(next.r == 21845){
+        cout<<"e"<<endl;
     }
-    sort(waits.begin(), waits.end(), less<int>());
     
-    int start_time = StringToMinute("09:00");
-    queue<int> q; // 대기열
-    
-    // 1. 9시 이전에 온 사람 다 넣음
-    int i;
-    for(i = 0; i<waits.size(); i++){
-        if(waits[i] <= start_time) q.push(waits[i]);
-		else break;
+    next.prev_dir = GetDirection(cur.r, cur.c, nr, nc); // 방향 계산
+    if(cur.prev_dir == next.prev_dir) next.num_s++; // 방향에 따른 도로 종류++
+    else next.num_c++;
+}
+
+void backtrack(Pos cur){
+    if(IsEnd(cur)){
+        // 결과 계산
+        answer = min(answer, CalSum(cur));
+        return;
     }
-    
-    int latest = -1;
-    int latest_q_size = 0;
-    while(n--){
-        // 2. 대기열에 있는 사람 t명 pop
-        int tempm = m;
-        latest_q_size = q.size();
-        while(!q.empty() && tempm--){
-            latest = q.front();
-            q.pop();
-        }
         
-        if(n == 0) break;
+    // 현 위치 기준, 상하좌우 unvisited && 벽 없는 경우
+    for(int d = 0; d<4; d++){
+        int nr = cur.r + dr[d];
+        int nc = cur.c + dc[d];
         
-        // 3. 다음 차시간 전에 줄 선 사람 모두 push
-        start_time += t;
-        for(; i<waits.size(); i++){
-            if(waits[i] <= start_time) q.push(waits[i]);
+        if(0 <= nr && nr < n && 0 <= nc && nc < n && !visited[nr][nc] && board[nr][nc] == 0){            
+            visited[nr][nc] = true;
+            Pos next = GetNext(cur, nr, nc);
+            backtrack(next);
+            visited[nr][nc] = false;
         }
     }
+}
+
+int solution(vector<vector<int>> _board) {
+    // var init
+    n = _board.size();
+    board = _board;
+    vector<vector<bool>> _visited(n, vector<bool>(n, false));
+    visited = _visited;
     
-    // 다 못 탄 경우
-    if(i < waits.size()){
-        return MinuteToString(latest-1);
-    }
-    // 다 탄 경우
-    if(i == waits.size()){
-        // 막차가 가득 찬 경우
-        if(latest_q_size == m) return MinuteToString(latest-1);
-        // 막차가 가득 안 찬 경우
-        return MinuteToString(start_time);
-    }
+    Pos cur;
+    cur.r = 0; cur.c = 0; cur.num_s = 0; cur.num_c = 0;
+    
+    // 첫 도로 가로방향 세로방향에 대해 각각 1번
+    cur.prev_dir = 0;
+    visited[0][0] = true;
+    backtrack(cur);
+    
+    cur.prev_dir = 1;
+    backtrack(cur);
+
+    cout<<answer<<endl;
+    
+    return answer;
 }
 
 /*
-모든 크루가 타고
-- 탈 수 있는 여유가 있는 경우 -> 마지막 버스 시간
-- 탈 수 있는 여유가 없는 경우 -> 제일 마지막에 타는 크루보다 1분 빨리.
+backtrack + 빡구현
 */
 
 //////////////////////
@@ -115,10 +105,9 @@ int main(void) {
 	cout.tie(0);
 	std::ios_base::sync_with_stdio(0);
 
-	int n = 1, t = 1, m = 1;
-	vector<string> timetable = {"23:59"};
+	vector<vector<int>> t = {{0,0,0},{0,0,0},{0,0,0}};
 
-	solution(n, t, m, timetable);
+	solution(t);
 	
 	return 0;
 }
