@@ -27,6 +27,14 @@ typedef pair<int, string> pis;
 
 using namespace std;
 
+#include <string>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+
 string MinuteToString(int m){
     int h = m / 60;
     string hs = to_string(h);
@@ -44,96 +52,61 @@ int StringToMinute(string s){
     return 60 * h + m;
 }
 
-typedef pair<int, int> pii; // [시간, 본인여부(1, 아니면 0)]
-typedef multiset<pii>::iterator miter;
-
-struct cmp{ // 시간 빠른거 - 타인부터
-    bool operator() (const pii &a, const pii &b) const{
-        if(a.first == b.first){
-            return a.second < b.second;
-        }
-        return a.first < b.first;
-    }
-};
-
-// cur_time보다 작은 것들을 모두 queue에 넣음
-void Insert(queue<bool> &q, multiset<pii> &waits, int cur_time, miter &iter){
-    while(1){
-        if(iter == waits.end()) return;
-        
-        pii cur = *iter;
-        if(cur.first > cur_time) return;
-        
-        q.push(cur.second == 1);
-        iter++;
-    }
-}
-
-bool Pop(queue<bool> &q, int m){
-    while(!q.empty() && m--){
-        bool front = q.front();
-        if(front) return true;
-        
-        q.pop();
-    }
-    return false;
-}
-
-// arrive_time에 도착했을 때 못타면 true, 아니면 false
-// O(n)
-bool CanNotGo(int arrive_time, int n, int t, int m, multiset<pii> &waits){
-    waits.insert({arrive_time, 1});
-    queue<bool> q; // 줄. 본인이면 true, 아니면 false
-    int i;
-    
-    miter iter = waits.begin();
-    
-    int cur_time = StringToMinute("09:00"); // 09시부터 n회 t분 간격, m명이 탈 수 있음.
-    Insert(q, waits, cur_time, iter); // 9시까지 온애 전부 줄세움
-    
-    // 9시부터 n대 옴.
-    bool canGo = false;
-    while(n--){
-        canGo = Pop(q, m);
-        if(canGo) break;
-        
-        cur_time += t;
-        Insert(q, waits, cur_time, iter);
-    }
-    
-    waits.erase({arrive_time, 1});
-    return !canGo;
-}
-
 string solution(int n, int t, int m, vector<string> timetable) {
-    // init
-    multiset<pii> waits;
+    vector<int> waits(timetable.size());
     for(int i = 0; i<timetable.size(); i++){
-        waits.insert({StringToMinute(timetable[i]), 0});
+        waits[i] = StringToMinute(timetable[i]);
+    }
+    sort(waits.begin(), waits.end(), less<int>());
+    
+    int start_time = StringToMinute("09:00");
+    queue<int> q; // 대기열
+    
+    // 1. 9시 이전에 온 사람 다 넣음
+    int i;
+    for(i = 0; i<waits.size(); i++){
+        if(waits[i] <= start_time) q.push(waits[i]);
+		else break;
     }
     
-    // lb
-    int start = 0, end = StringToMinute("24:00"), mid;
-    int limit = end;
-    // while(start < end){
-    //     mid = (start + end) / 2;
-    //     if(CanNotGo(mid, n, t, m, waits)) end = mid; // 탈 수 없으면 시간을 더 당김
-    //     else start = mid + 1;
-    // } // 결과 : 탈 수 없는 최소값
-    
-    int temp = StringToMinute("09:00");
-    cout<<CanNotGo(temp, n, t, m, waits)<<endl;
-    
-    if(end == 0){ // 어떻게 해도 못 탐
-        return "00:00";
+    int latest = -1;
+    int latest_q_size = 0;
+    while(n--){
+        // 2. 대기열에 있는 사람 t명 pop
+        int tempm = m;
+        latest_q_size = q.size();
+        while(!q.empty() && tempm--){
+            latest = q.front();
+            q.pop();
+        }
+        
+        if(n == 0) break;
+        
+        // 3. 다음 차시간 전에 줄 선 사람 모두 push
+        start_time += t;
+        for(; i<waits.size(); i++){
+            if(waits[i] <= start_time) q.push(waits[i]);
+        }
     }
-    if(end == limit){ // 어떻게 해도 탐.
-        return "23:59";
+    
+    // 다 못 탄 경우
+    if(i < waits.size()){
+        return MinuteToString(latest-1);
     }
-    else{ // 보통 경우
-        return MinuteToString(end-1);
+    // 다 탄 경우
+    if(i == waits.size()){
+        // 막차가 가득 찬 경우
+        if(latest_q_size == m) return MinuteToString(latest-1);
+        // 막차가 가득 안 찬 경우
+        return MinuteToString(start_time);
     }
 }
+
+/*
+모든 크루가 타고
+- 탈 수 있는 여유가 있는 경우 -> 마지막 버스 시간
+- 탈 수 있는 여유가 없는 경우 -> 제일 마지막에 타는 크루보다 1분 빨리.
+*/
 
 //////////////////////
 
@@ -142,8 +115,8 @@ int main(void) {
 	cout.tie(0);
 	std::ios_base::sync_with_stdio(0);
 
-	int n = 1, t = 1, m = 5;
-	vector<string> timetable = {"08:00", "08:01", "08:02", "08:03"};
+	int n = 1, t = 1, m = 1;
+	vector<string> timetable = {"23:59"};
 
 	solution(n, t, m, timetable);
 	
