@@ -34,7 +34,7 @@ void bfs(int r, int c){
         pii cur = q.front(); q.pop();
         
         for(int i = 0; i<4; i++){
-            int nr = cur.first, nc = cur.second;
+            int nr = cur.first + dr[i], nc = cur.second + dc[i];
             if(0 <= nr && nr < n && 0 <= nc && nc < m && land[nr][nc] == 1 && !visited[nr][nc]){
                 visited[nr][nc] = true;
                 q.push({nr, nc});
@@ -47,8 +47,6 @@ void bfs(int r, int c){
     for(int col : cols){
         values[col] += size;
     }
-    cout<<"rc : "<<r<<", "<<c<<endl;
-    cout<<size<<endl;
 }
 
 int solution(vector<vector<int>> _land) {
@@ -72,18 +70,4 @@ int solution(vector<vector<int>> _land) {
         answer = max(answer, value);
     }
     return answer;
-}
-
-//////////////////////
-
-int main(void) {
-	cin.tie(0);
-	cout.tie(0);
-	std::ios_base::sync_with_stdio(0);
-
-	vector<vector<int>> t = {{0, 0, 0, 1, 1, 1, 0, 0}, {0, 0, 0, 0, 1, 1, 0, 0}, {1, 1, 0, 0, 0, 1, 1, 0}, {1, 1, 1, 0, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 0, 1, 1}};
-
-	solution(t);
-	
-	return 0;
 }
