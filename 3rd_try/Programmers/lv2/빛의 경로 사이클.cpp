@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -25,13 +26,14 @@ int get_next_dir(int prev_dir, char op){
     }
 }
 
-void dfs(int i, int j, int dir, int len){
+void dfs(int i, int j, int dir, int len){   
     int nd = get_next_dir(dir, grid[i][j]);
     int nr = i + dr[nd]; if(nr == -1) nr = m-1; if(nr == m) nr = 0;
     int nc = j + dc[nd]; if(nc == -1) nc = n-1; if(nc == n) nc = 0;
     
     if(visited[nr][nc][nd]){
         answer.push_back(len);
+        return;
     }
     
     visited[nr][nc][nd] = true;
@@ -54,7 +56,7 @@ vector<int> solution(vector<string> _grid) {
         }
     }
     
-    vector<int> answer;
+    sort(answer.begin(), answer.end(), less<int>());
     return answer;
 }
 
@@ -66,16 +68,3 @@ backtrack인데,
 
 cycle을 찾는 조건은? [지났던 칸, 지났던 방향]을 또 들르는 것이다.
 */
-//////////////////////
-
-int main(void) {
-	cin.tie(0);
-	cout.tie(0);
-	std::ios_base::sync_with_stdio(0);
-
-	vector<string> t = {"SL","LR"};
-
-	solution(t);
-	
-	return 0;
-}
