@@ -1,48 +1,52 @@
-#include <string>
-#include <vector>
-#include <cmath>
+#define _USE_MATH_DEFINES 
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <queue>
+#include <cmath>
+#include <numeric>
+#include <map>
+#include <cmath>
+#include <stack>
+#include <set>
 
 using namespace std;
-
 typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<int, string> pis;
 
-ll dq(int d, ll k){ // depth d일 때, k번째 수 앞에 있는 수 개수
-    if(d == 1){
-        if(k >= 3) k--;
-        return k;
+////////////////////// write your code below
+
+void solve(){
+	int N; cin>>N;
+    vector<pii> datas(N);
+    for(int i = 0; i<N; i++){
+        cin>>datas[i].first>>datas[i].second;
     }
-    
-    ll div = pow(5, d-1);
-    
-    ll q = k/div;
-    ll r = k-q*div;
-    
-    ll answer = 0;
-    for(int i = 0; i<q; i++){
-        if(i == 2) continue;
-        answer += dq(d-1, div);
+
+    vector<int> dp(N, 0); // dp[i] : i번째날에 상담했을 때 최대값
+    for(int i = N-1; i>=0; i--){
+        if(datas[i].first + i >= N) continue;
+        for(int j = i + datas[i].first; j<N; j++){
+            dp[i] = max(dp[i] + datas[i].second, dp[j]);
+        }
     }
-    if(r != 0) answer += dq(d-1, r);
-    
-    return answer;
+    cout<<*max_element(dp.begin(), dp.end());
 }
 
-int solution(int n, long long l, long long r) {
-    
-    cout<<dq(3, 120)<<endl;
-    
-    return 0;
-}
+//////////////////////
 
 int main(void) {
 	cin.tie(0);
 	cout.tie(0);
 	std::ios_base::sync_with_stdio(0);
 
-	vector<string> t = {"SL","LR"};
+	// comment when submit
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
 
-	solution(2, 3, 17);
-	
+	solve();
+
 	return 0;
 }
