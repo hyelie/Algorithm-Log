@@ -86,6 +86,18 @@ int get_result(string query){
     string language, part, experience, food;
     int point;
     
+    string buffer;
+    vector<string> parsed_query;
+    while(getline(iss, buffer, ' ')){
+        if(buffer == "and") continue;
+        parsed_query.push_back(buffer);
+    }
+    language = parsed_query[0];
+    part = parsed_query[1];
+    experience = parsed_query[2];
+    food = parsed_query[3];
+    point = stoi(parsed_query[4]);
+    
     int language_index = parse(language); if(language == "-") language_index = 3;
     int part_index = parse(part); if(part == "-") part_index = 2;
     int experience_index = parse(experience); if(experience == "-") experience_index = 2;
@@ -122,11 +134,3 @@ DB index ... !?
 4 * 3 * 3 * 3 * 50000
 각 조건마다 하나씩 집어넣고, 전체 조건에도 집어넣고.
 */
-
-int main(void) {
-    vector<string> info = {"java backend junior pizza 150","python frontend senior chicken 210","python frontend senior chicken 150","cpp backend senior pizza 260","java backend junior chicken 80","python backend senior chicken 50"};
-    vector<string> query = {"java and backend and junior and pizza 100","python and frontend and senior and chicken 200","cpp and - and senior and pizza 250","- and backend and senior and - 150","- and - and - and chicken 100","- and - and - and - 150"};
-	solution(info, query);
-
-	return 0;
-}
