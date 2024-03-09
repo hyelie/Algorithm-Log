@@ -7,6 +7,7 @@
         "typeinfo": "cpp",
         "stack": "cpp",
         "iostream": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "cmath": "cpp"
     }
 }
