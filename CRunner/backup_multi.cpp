@@ -31,7 +31,6 @@ int main(void) {
 
 	// comment when submit
 	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
 	
 	// number of test cases
 	int t; cin>>t;
