@@ -21,19 +21,21 @@ typedef pair<int, string> pis;
 void solve(){
     // input
 	int n; cin>>n;
-    vector<int> arr(n), dp;
+    vector<int> arr(n), dp(n, 1);
     for(int i = 0; i<n; i++) cin>>arr[i];
-    
-    // for(int i = 0; i<n; i++){
-    //     for(int j = i+1; j<n; j++){
-    //         if(arr[i] < arr[j]){
-    //             dp[j] = max(dp[j], dp[i] + 1);
-    //         }
-    //     }
-    // }
 
-    // cout<<*max_element(dp.begin(), dp.end());
+    // solve 1. O(n*2)
+    for(int i = 0; i<n; i++){
+        for(int j = i+1; j<n; j++){
+            if(arr[i] < arr[j]){
+                dp[j] = max(dp[j], dp[i] + 1);
+            }
+        }
+    }
 
+    cout<<*max_element(dp.begin(), dp.end());
+
+    // solve 2. LIS
     dp.push_back(arr[0]);
     for(int i = 0; i<n; i++){
         if(dp.back() < arr[i]){
