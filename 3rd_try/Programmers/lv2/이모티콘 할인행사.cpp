@@ -17,21 +17,19 @@ int ratio_applied_price(int origin_price, int ratio){
     return origin_price * (100 - ratio) / 100;
 }
 
+// 1
 void calculate(){
-    for(int i : emoticon_sales) cout<<i<<", ";
-    cout<<endl;
-    
     vector<int> user_sum(num_user, 0);
     for(int i = 0; i<num_user; i++){
         for(int j = 0; j<num_emoticon; j++){
-            if(emoticon_sales[j] > users[i][0]){
+            if(emoticon_sales[j] >= users[i][0]){
                 user_sum[i] += ratio_applied_price(emoticons[j], emoticon_sales[j]);
             }
         }
     }
     
     int num_plus = 0;
-    for(int i = 0; i<num_emoticon; i++){
+    for(int i = 0; i<num_user; i++){
         if(user_sum[i] >= users[i][1]){
             user_sum[i] = 0;
             num_plus++;
@@ -41,7 +39,32 @@ void calculate(){
     int revenue = 0;
     for(int sum : user_sum) revenue += sum;
     
-    cout<<"  "<<num_plus<<", "<<revenue<<endl;
+    if(num_plus > max_num_plus){
+        max_num_plus = num_plus;
+        max_revenue = revenue;
+        return;
+    }
+    else if(num_plus == max_num_plus){
+        max_revenue = max(max_revenue, revenue);
+        return;
+    }
+}
+
+// 2
+void calculate(){
+    int num_plus = 0, revenue = 0;
+    for(vector<int> user : users){
+        int paid = 0;
+        for(int i = 0; i<num_emoticon; i++){
+            if(emoticon_sales[i] >= user[0]){
+                paid += ratio_applied_price(emoticons[i], emoticon_sales[i]);
+            }
+        }
+        
+        if(paid >= user[1]) num_plus++;
+        else revenue += paid;
+    }
+    
     if(num_plus > max_num_plus){
         max_num_plus = num_plus;
         max_revenue = revenue;
@@ -85,19 +108,3 @@ vector<int> solution(vector<vector<int>> _users, vector<int> _emoticons) {
 1,600,000
 OK
 */
-
-//////////////////////
-
-int main(void) {
-	cin.tie(0);
-	cout.tie(0);
-	std::ios_base::sync_with_stdio(0);
-
-	// comment when submit
-	vector<vector<int>> users = {{40, 10000}, {25, 10000}};
-    vector<int> emoticons = {7000, 9000};
-
-	solution(users, emoticons);
-
-	return 0;
-}
